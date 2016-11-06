@@ -333,7 +333,7 @@ describe('Entities library', function () {
         }));
       });
 
-      xit('includes a bat.', function () {
+      it('includes a bat.', function () {
         var character = entities.characters.monsterBat;
         expect(character).toEqual(jasmine.any(Character));
         expect(character.weapon).toEqual(jasmine.any(Weapon));
@@ -360,7 +360,7 @@ describe('Entities library', function () {
         }));
       });
 
-      xit('includes a wand.', function () {
+      it('includes a wand.', function () {
         var weapon = entities.weapons.wand;
         expect(weapon).toEqual(jasmine.any(Weapon));
         expect(weapon.effect).toEqual(jasmine.objectContaining({
@@ -368,7 +368,7 @@ describe('Entities library', function () {
         }));
       });
 
-      xit('includes fangs.', function () {
+      it('includes fangs.', function () {
         var weapon = entities.weapons.fangs;
         expect(weapon).toEqual(jasmine.any(Weapon));
         expect(weapon.effect).toEqual(jasmine.objectContaining({
@@ -376,7 +376,7 @@ describe('Entities library', function () {
         }));
       });
 
-      xit('includes pseudopode.', function () {
+      it('includes pseudopode.', function () {
         var weapon = entities.weapons.pseudopode;
         expect(weapon).toEqual(jasmine.any(Weapon));
         expect(weapon.effect).toEqual(jasmine.objectContaining({
@@ -387,9 +387,9 @@ describe('Entities library', function () {
 
     });
 
-    xdescribe('Scrolls', function () {
+    describe('Scrolls', function () {
 
-      xit('includes health.', function () {
+     	it('includes health.', function () {
         var scroll = entities.scrolls.health;
         expect(scroll).toEqual(jasmine.any(Scroll));
         expect(scroll.cost).toBe(10);
@@ -398,7 +398,7 @@ describe('Entities library', function () {
         }));
       });
 
-      xit('includes fireball.', function () {
+      it('includes fireball.', function () {
         var scroll = entities.scrolls.fireball;
         expect(scroll).toEqual(jasmine.any(Scroll));
         expect(scroll.cost).toBe(30);

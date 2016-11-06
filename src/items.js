@@ -3,14 +3,17 @@
 function Item(name, effect) {
   this.name = name;
   this.effect = effect;
-  this.effect.hp = 5;
+  this.effect.hp = 5 ;
+  this.effect.mp =5;
 }
 
 function Weapon(name, damage, extraEffect) {
   extraEffect = extraEffect || new Effect({});
   Weapon = Item.prototype.constructor;
   Item.call(this,name,extraEffect);
-  extraEffect.hp=-extraEffect.hp;
+  extraEffect.hp=-damage;
+  extraEffect.mp =-damage;
+
 }
 Weapon.prototype = Object.create(Item.prototype);
 Weapon.prototype.constructor = Weapon;
@@ -19,6 +22,11 @@ Weapon.prototype.constructor = Weapon;
 function Scroll(name, cost, effect) {
   Item.call(this, name, effect);
   this.cost = cost;
+  if(name=== 'health')
+  effect.hp=25 ;
+if(name==='fireball')
+  effect.hp=-25;
+
 }
 Scroll.prototype = Object.create(Item.prototype);
 Scroll.prototype.constructor = Scroll;

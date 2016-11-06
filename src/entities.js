@@ -20,9 +20,9 @@ var lib = module.exports = {
       return new items.Weapon('wand', 5);
     },
        get pseudopode() {
-      return new items.Weapon('pseudopode', 25);
+      return new items.Weapon('pseudopode', 5);
     },   get fangs() {
-      return new items.Weapon('fangs', 25);
+      return new items.Weapon('fangs', 10);
     },
   },
 
@@ -93,8 +93,10 @@ var lib = module.exports = {
     get health() {
       return new items.Scroll('health', 10, new Effect({ hp: 25 }));
     },
+ get fireball() {
+      return new items.Scroll('fireball', 30, new Effect({ hp: -25 }));
+    },
 
-    // Implementa la bola de fuego
 
   }
 };
