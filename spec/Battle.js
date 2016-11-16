@@ -78,7 +78,7 @@ describe('Battle type', function () {
 
   });
 
-  xdescribe('Turn list', function () {
+  describe('Turn list', function () {
 
     it('includes all the characters sorted by initiative.', function (done) {
       var sortedByInitiative = ['Fasty', 'Tank', 'Wizz'];
