@@ -15,6 +15,7 @@ CharactersView.prototype._visibleFeatures = [
   'maxMp'
 ];
 
+
 CharactersView.prototype.all = function () {
   return Object.keys(this._views).reduce(function (copy, id) {
     copy[id] = this._views[id];
@@ -44,11 +45,16 @@ CharactersView.prototype.set = function (characters) {
 
 CharactersView.prototype._getViewFor = function (character) {
   var view = {};
+this._visibleFeatures.forEach(function (feature){
+  
+  
+
   // Usa la lista de características visibles y Object.defineProperty() para
   // devolver un objeto de JavaScript con las características visibles pero
   // no modificables.
-  Object.defineProperty(view, 'cada feature', {
+  Object.defineProperty(view, feature, {
     get: function () {
+      return character[feature]; 
       // ¿Cómo sería este getter para reflejar la propiedad del personaje?
     },
     set: function (value) {
@@ -56,6 +62,8 @@ CharactersView.prototype._getViewFor = function (character) {
     },
     enumerable: true
   });
+});
+  return view;
   // Acuérdate de devolver el objeto.
 };
 

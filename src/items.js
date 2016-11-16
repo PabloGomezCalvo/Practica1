@@ -3,8 +3,8 @@
 function Item(name, effect) {
   this.name = name;
   this.effect = effect;
-  this.effect.hp = 5 ;
-  this.effect.mp =5;
+  this.effect.hp = effect.hp ;
+  this.effect.mp = effect.mp;
 }
 
 function Weapon(name, damage, extraEffect) {
@@ -12,6 +12,7 @@ function Weapon(name, damage, extraEffect) {
   Weapon = Item.prototype.constructor;
   Item.call(this,name,extraEffect);
   extraEffect.hp=-damage;
+  if(extraEffect.mp !== null)
   extraEffect.mp =-damage;
 
 }
@@ -32,11 +33,8 @@ Scroll.prototype = Object.create(Item.prototype);
 Scroll.prototype.constructor = Scroll;
 
 Scroll.prototype.canBeUsed = function (mp) {
-  if(mp>=this.cost)
-    return true;
-  else return false;
-  // El pergamino puede usarse si los puntos de maná son superiores o iguales
-  // al coste del hechizo.
+  return (mp>=this.cost)
+
 };
 
 function Effect(variations) {
