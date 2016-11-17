@@ -83,7 +83,7 @@ Battle.prototype._extractCharactersById = function (parties) {
   function assignParty(characters, party) {
     for(var name in characters)
       characters[name].party=party;
-    // Cambia la party de todos los personajes a la pasada como parámetro.
+    
   }
 
   function useUniqueName(character) {
@@ -124,7 +124,7 @@ Battle.prototype._nextTurn = function () {
   setTimeout(function () {
     var endOfBattle = this._checkEndOfBattle();
     if (endOfBattle) {
-      this.emit('end', endOfBattle);
+      this.emit('end', enOfBattle);
     } else {
       var turn = this._turns.next();
       this._showActions();
@@ -178,6 +178,15 @@ Battle.prototype._onAction = function (action) {
     action: action,
     activeCharacterId: this._turns.activeCharacterId
   };
+  if(this._action.action === 'defend'){
+    this._defend();
+  }
+  else if(this._action.action === 'attack'){
+    this._attack();
+  }
+  if(this._action.action === 'cast'){
+    this._cast();
+  }
   // Debe llamar al método para la acción correspondiente:
   // defend -> _defend; attack -> _attack; cast -> _cast
 };
@@ -191,7 +200,10 @@ Battle.prototype._defend = function () {
 };
 
 Battle.prototype._improveDefense = function (targetId) {
-  var states = this._states[targetId];
+
+   var states = this._states[targetId];
+   this._charactersById[targetId]._defense= Math.ceil(this._charactersById[targetId]._defense * 1.1);
+   return this._charactersById[targetId]._defense;
   // Implementa la mejora de la defensa del personaje.
 };
 
