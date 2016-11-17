@@ -81,13 +81,21 @@ Battle.prototype._extractCharactersById = function (parties) {
   return listToMap(characters, useUniqueName);
 
   function assignParty(characters, party) {
+    for(var name in characters)
+      characters[name].party=party;
     // Cambia la party de todos los personajes a la pasada como parámetro.
   }
 
   function useUniqueName(character) {
-    // Genera nombres únicos de acuerdo a las reglas
-    // de generación de identificadores que encontrarás en
-    // la descripción de la práctica o en la especificación.
+
+if(!idCounters.hasOwnProperty(character.name)){
+  idCounters[character.name] = 1; 
+  return character.name;
+}
+else {
+  idCounters[character.name]++;
+ return character.name + ' ' + (idCounters[character.name]);
+}
   }
 };
 
@@ -131,11 +139,26 @@ Battle.prototype._checkEndOfBattle = function () {
   var commonParty = getCommonParty(aliveCharacters);
   return commonParty ? { winner: commonParty } : null;
 
+
   function isAlive(character) {
+    if(character.hp > 0)
+      return true;
+    else return false;
     // Devuelve true si el personaje está vivo.
   }
 
   function getCommonParty(characters) {
+    var flag = true;
+    var first = characters[0].party;
+    var i = 0;
+    while(i<characters.length && flag){
+        if( characters[i].party !== first)
+          flag=false;
+      i++;
+    }
+    if(flag === true)
+      return first;
+    else return null;
     // Devuelve la party que todos los personajes tienen en común o null en caso
     // de que no haya común.
   }
