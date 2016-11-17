@@ -53,6 +53,7 @@ this._visibleFeatures.forEach(function (feature){
       // ¿Cómo sería este getter para reflejar la propiedad del personaje?
     },
     set: function (value) {
+      //esto es igual a no hacer nada
       return value - value;
       // ¿Y este setter para ignorar cualquier acción?
     },

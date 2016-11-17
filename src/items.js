@@ -11,22 +11,20 @@ function Weapon(name, damage, extraEffect) {
   Item.call(this,name,extraEffect);
   extraEffect.hp = - damage;
   this.effect = extraEffect;
-  /*if(extraEffect.mp !== undefined)
-  extraEffect.mp =-damage;
-*/
+  
+
 }
 Weapon.prototype = Object.create(Item.prototype);
 Weapon.prototype.constructor = Weapon;
 
 
 function Scroll(name, cost, effect) {
-  Item.call(this, name, effect);
-  this.cost = cost;
-/*  if(name=== 'health')
-  effect.hp=25 ;
-if(name==='fireball')
-  effect.hp=-25;
-*/
+
+  if (name === 'health')
+  effect.hp = 25 ;
+  if (name === 'fireball')
+  effect.hp = - 25;
+
 
 }
 Scroll.prototype = Object.create(Item.prototype);

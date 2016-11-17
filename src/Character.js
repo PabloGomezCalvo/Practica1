@@ -23,6 +23,7 @@ Character.prototype.isDead = function () {
 
 Character.prototype.applyEffect = function (effect, isAlly) {
    if(isAlly){
+   	
 for(var nombre in effect)
   this[nombre] += effect[nombre];
   return true;

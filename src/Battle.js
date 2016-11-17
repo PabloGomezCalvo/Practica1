@@ -81,9 +81,7 @@ Battle.prototype._extractCharactersById = function (parties) {
   return listToMap(characters, useUniqueName);
 
   function assignParty(characters, party) {
-    /*for(var name in characters)
-      characters[name].party=party;
-      */
+//Para cada personaje, cogemos su party y les asignamos la que entra.
       characters.forEach(function(character){
 
         character.party = party;
@@ -239,11 +237,14 @@ Battle.prototype._cast = function () {
   var self = this;
   self._showScrolls(function onScroll(scrollId, scroll) {
     self._showTargets(function onTarget(targetId) {
-   
+   //inicializamos todos como en el método anterior
    self._action.targetId = targetId;
     self._action.scrollName = scrollId;
     self._action.effect = scroll.effect
+    //trakeamos
+    //console.log(self._charactersById);
     self._charactersById[self._action.activeCharacterId].mp -= scroll.cost;
+    //copiamos como en el método de arriba
     self._executeAction();
     self._restoreDefense(targetId);
   });
