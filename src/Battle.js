@@ -81,8 +81,13 @@ Battle.prototype._extractCharactersById = function (parties) {
   return listToMap(characters, useUniqueName);
 
   function assignParty(characters, party) {
-    for(var name in characters)
+    /*for(var name in characters)
       characters[name].party=party;
+      */
+      characters.forEach(function(character){
+
+        character.party = party;
+      });
     
   }
 
@@ -124,7 +129,7 @@ Battle.prototype._nextTurn = function () {
   setTimeout(function () {
     var endOfBattle = this._checkEndOfBattle();
     if (endOfBattle) {
-      this.emit('end', enOfBattle);
+      this.emit('end', endOfBattle);
     } else {
       var turn = this._turns.next();
       this._showActions();
@@ -151,9 +156,9 @@ Battle.prototype._checkEndOfBattle = function () {
     var flag = true;
     var first = characters[0].party;
     var i = 0;
-    while(i<characters.length && flag){
+    while(i < characters.length && flag){
         if( characters[i].party !== first)
-          flag=false;
+          flag = false;
       i++;
     }
     if(flag === true)
@@ -187,8 +192,7 @@ Battle.prototype._onAction = function (action) {
   if(this._action.action === 'cast'){
     this._cast();
   }
-  // Debe llamar al método para la acción correspondiente:
-  // defend -> _defend; attack -> _attack; cast -> _cast
+
 };
 
 Battle.prototype._defend = function () {
@@ -200,14 +204,15 @@ Battle.prototype._defend = function () {
 };
 
 Battle.prototype._improveDefense = function (targetId) {
-
-   var states = this._states[targetId];
-   this._charactersById[targetId]._defense= Math.ceil(this._charactersById[targetId]._defense * 1.1);
+   this._states[targetId].defense = this._charactersById[targetId].defense;
+   this._charactersById[targetId]._defense = 
+   Math.ceil(this._charactersById[targetId]._defense * 1.1);
    return this._charactersById[targetId]._defense;
   // Implementa la mejora de la defensa del personaje.
 };
 
 Battle.prototype._restoreDefense = function (targetId) {
+  this._charactersById[targetId].defense = this._states[targetId].defense;
   // Restaura la defensa del personaje a cómo estaba antes de mejorarla.
   // Puedes utilizar el atributo this._states[targetId] para llevar tracking
   // de las defensas originales.
@@ -216,6 +221,14 @@ Battle.prototype._restoreDefense = function (targetId) {
 Battle.prototype._attack = function () {
   var self = this;
   self._showTargets(function onTarget(targetId) {
+    //trackeamos el weapon haciendo el console.log de self y vamos entrando
+    //cada vez más donde queremos llegar.
+    //console.log(self._charactersById[targetId].weapon.effect);
+ 
+      self._action.targetId = targetId;
+    self._action.effect = self._charactersById[self._action.activeCharacterId].weapon.effect;
+
+
     // Implementa lo que pasa cuando se ha seleccionado el objetivo.
     self._executeAction();
     self._restoreDefense(targetId);
@@ -225,6 +238,15 @@ Battle.prototype._attack = function () {
 Battle.prototype._cast = function () {
   var self = this;
   self._showScrolls(function onScroll(scrollId, scroll) {
+    self._showTargets(function onTarget(targetId) {
+   
+   self._action.targetId = targetId;
+    self._action.scrollName = scrollId;
+    self._action.effect = scroll.effect
+    self._charactersById[self._action.activeCharacterId].mp -= scroll.cost;
+    self._executeAction();
+    self._restoreDefense(targetId);
+  });
     // Implementa lo que pasa cuando se ha seleccionado el hechizo.
   });
 };
@@ -248,8 +270,15 @@ Battle.prototype._informAction = function () {
 };
 
 Battle.prototype._showTargets = function (onSelection) {
-  // Toma ejemplo de la función ._showActions() para mostrar los identificadores
-  // de los objetivos.
+  this.options.current = {};
+
+  for(var char in this._charactersById){
+
+    if(this._charactersById[char].hp > 0)
+      var personaje = this._charactersById[char].name;
+    this.options.current._group[personaje] = true;
+  }
+
 
   this.options.current.on('chose', onSelection);
 };
@@ -257,7 +286,7 @@ Battle.prototype._showTargets = function (onSelection) {
 Battle.prototype._showScrolls = function (onSelection) {
   // Toma ejemplo de la función anterior para mostrar los hechizos. Estudia
   // bien qué parámetros se envían a los listener del evento chose.
-  this.options.current.on('chose', onSelection);
+
 };
 
 module.exports = Battle;

@@ -10,29 +10,39 @@ TurnList.prototype.reset = function (charactersById) {
   this.list = this._sortByInitiative();
 };
 
+
 TurnList.prototype.next = function () {
-this._turnIndex=0;
-var turn= {};
-turn.list = this.list;
+
+
+var turn = {};
+this.turnNumber ++;
+turn.number = this.turnNumber;
+this._turnIndex = (this._turnIndex + 1) % this.list.length;
 this.activeCharacterId = this.list[this._turnIndex];
 turn.activeCharacterId = this.activeCharacterId;
 
-
-while(this._turnIndex < this.list.length && this._charactersById[turn.activeCharacterId].isDead()){
+var aux = 0;
+//dividimos en 2 el comentario por el lintern
+//console.log ("--- "+turn.activeCharacterId+
+//"---"+JSON.stringify(this._charactersById[turn.activeCharacterId]));
+while(aux < this.list.length && 
+  this._charactersById[turn.activeCharacterId].isDead()){
+//console.log(this._charactersById[turn.activeCharacterId].isDead);
+//console.log (turn.activeCharacterId);
     this.activeCharacterId = this.list[this._turnIndex];
-  turn.activeCharacterId = this.activeCharacterId;
-
-  this._turnIndex++;
+    turn.activeCharacterId = this.activeCharacterId;
+    this._turnIndex = (this._turnIndex + 1) % this.list.length;
+    aux ++;
   
 }
-turn.activeCharacterId = this.activeCharacterId;
+this.activeCharacterId = turn.activeCharacterId;
 turn.party = this._charactersById[turn.activeCharacterId].party;
-this.turnNumber++;
-turn.number = this.turnNumber;
 return turn;
 
 
   };
+
+  
 
 
 
@@ -43,19 +53,19 @@ return turn;
 
 TurnList.prototype._sortByInitiative = function () {
 var listcharacters = [];
-var listinitiative =[];
+var listinitiative = [];
 for(var name in this._charactersById){
   listcharacters.push(
     {
       name:name,
       initiative: this._charactersById[name].initiative
     });
-};
+}
   listcharacters.sort(function (a,b){
     if(a && b){
     if(a.initiative > b.initiative)
       return -1;
-    else if(a.initiative <b.initiative)
+    else if (a.initiative < b.initiative)
       return 1;
     else return 0;
 }

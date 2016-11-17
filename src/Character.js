@@ -4,13 +4,13 @@ var dice = require('./dice');
 function Character(name, features) {
   features = features || {};
   this.name = name;
-  this.party=features.party||null;
-  this.initiative=features.initiative||0;
-  this._defense=features.defense||0;
-  this.weapon=features.weapon||null;
+  this.party = features.party || null;
+  this.initiative = features.initiative || 0;
+  this._defense = features.defense || 0;
+  this.weapon = features.weapon || null;
   this._hp = features.hp || 0;
   this._mp = features.mp || 0;
-  this.maxHp = features.maxHp || this._hp||15;
+  this.maxHp = features.maxHp || this._hp || 15;
   this.maxMp = features.maxMp || this._mp;
 
 }
@@ -23,32 +23,20 @@ Character.prototype.isDead = function () {
 
 Character.prototype.applyEffect = function (effect, isAlly) {
    if(isAlly){
-  
-  this.party += effect.party|| this.party;
-  this.initiative += effect.initiative|| this.initiative;
-  this._defense = effect.defense + this._defense || this._defense;
-  this._hp = effect.hp + this._hp || this._hp;
-  this._mp = effect.mp + this._mp || this._mp;
-  this.maxHp = effect.maxHp + this.maxHp|| this.maxHp ;
-  this.maxMp = effect.maxMp + this.maxMp  || this.maxMp;
+for(var nombre in effect)
+  this[nombre] += effect[nombre];
   return true;
 
   }
 
-  else if(dice.d100()===100){
-
-  this.party += effect.party|| this.party;
-  this.initiative += effect.initiative|| this.initiative;
-  this._defense = effect.defense + this._defense || this._defense;
-  this._hp = effect.hp + this._hp || this._hp;
-  this._mp = effect.mp + this._mp || this._mp;
-  this.maxHp = effect.maxHp + this.maxHp|| this.maxHp ;
-  this.maxMp = effect.maxMp + this.maxMp  || this.maxMp;
+  else if(dice.d100() >= this.defense){
+for(var nomb in effect)
+  this[nomb] += effect[nomb];
   return true;
 }
-else if(dice.d100()===1){
+else 
 return false;
-}
+
 
 };
 
